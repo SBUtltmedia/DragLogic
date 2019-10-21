@@ -1,0 +1,24 @@
+.station{
+    font-size: 3rem;
+  }
+
+.stationDroppable{
+  color: blue;
+}
+
+.stationOther{
+  color: black;
+}
+
+.terminal{
+  font-size: 2rem;
+  color: red;
+}
+
+.active {
+    background-color:yellow;
+}
+
+body{
+  font-size: 4rem;
+}
