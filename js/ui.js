@@ -1,18 +1,21 @@
 $(function() {
+
+ makeAxioms()
+
+})
+
+function makeAxioms(){
+  $("#axioms").html("")
   axioms.forEach((axiom) => {
 
 
 
 
-    makeInteractive(axiom)
+      $("#axioms").append(makeInteractive(axiom))
 
 
   });
-
-
-})
-
-
+}
 
 
 function renderOperator(wff) {
@@ -35,44 +38,46 @@ function makeInteractive(wff) {
       top: -12,
       left: -20
     },
-    helper: "clone"
-    // start: function(event, ui) {
-    //   var $this = $(this);
-    //   //Instead of helper: 'clone'
-    //   var $newElem = $this.clone().addClass("clonedElem");
-    //   $this.css("z-index", 1000); //make sure draggable is on top of all elements
-    //   $this.css("position", "absolute").after($newElem); //Keep original space
-    //   makeDroppable($newElem.find("div").addBack());
-    // },
-    // stop: function(event, ui) {
-    //   $(this).css("position", "relative") //restore original positioning
-    //     .css("z-index", "auto"); //restore original z-index
-    //   $(".clonedElem").remove(); //remove cloned element
-    // }
+    start: function(event, ui) {
+
+      var closestFormulaDiv = $(this).closest('.formula');
+      closestFormulaDiv.html(makeInteractive(findClosestFormula($(this))))
+     },
+    revertDuration: 0,
+    revert: true,
+    appendTo: 'body',
+    refreshPositions: true,
+    helper: "clone" // uncomment this if the create class block breaks
   });
 
-  setTimeout(function() {
-    $('.meta_atomic').droppable({
-      hoverClass: "active",
-      drop: interactiveDrop,
-      tolerance: 'pointer'
-    })
-  }, 2000);
+  // original droppable block, uncomment if makeDroppable breaks
+  // requestAnimationFrame(function(){makeDroppable($('.meta_atomic'))});
+interactiveContainer.find('.meta_atomic').each(function(item){makeDroppable($(this))});
+  return interactiveContainer;
+}
 
-  $("body").append(interactiveContainer);
+function makeDroppable(elem){
+  elem.droppable({
+         // greedy: true,
+         hoverClass: "active",
+         tolerance: 'pointer',
+         drop: interactiveDrop
+       })
 }
 
 
 function interactiveDrop(ui, event) {
   var subIn = toShorthand($(event.draggable).text())
   var subOut = toShorthand($(ui.target).text())
-  var wff = toShorthand($(ui.target).closest('.formula').text())
-
+  var wff = findClosestFormula($(ui.target))
+  console.log(wff);
   substitution(subIn, subOut, wff)
 
 }
 
-
+function findClosestFormula(el){
+  return toShorthand(el.closest('.formula').text());
+}
 
 function makeTree(wff) {
   if (wff.length == 1) return `<span class="meta_atomic">${wff}</span>`;
