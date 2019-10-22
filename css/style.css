@@ -20,5 +20,31 @@
 }
 
 body{
-  font-size: 4rem;
+  font-size: 2rem;
+}
+
+.line ,#wffConstructor, .justification{
+    display: flex;
+flex-wrap: no-wrap;
+flex-direction: row;
+justify-content: space-between;
+
+}
+
+#proof{
+border:solid 1px blue;
+width:100%;
+
+}
+.antecedent,.consequent{
+
+border:.1rem solid blue;
+height:2rem;
+
+}
+
+.justification .lines{
+
+padding-left:.5rem;
+
 }
