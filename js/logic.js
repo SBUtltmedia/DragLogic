@@ -119,7 +119,7 @@ function splitFromMainConnective(wff) {
 }
 
 function modusPonens(p1, p2) {
-  var [antecedent, consequent] = splitFromMainConnective(p1)
+  var [antecedent, connective, consequent] = splitFromMainConnective(p1)
   if (p2 == antecedent && findMainConnective(p1) == connectives.find(item => item.name == "Conditional").shorthandSymbol)
     return consequent;
 }
