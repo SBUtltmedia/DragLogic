@@ -1,27 +1,27 @@
 $(function() {
 
  // makeAxioms()
+ makeWffPanel()
  makeSentenceLetters()
  makeProof()
- makeModusPonensPanel()
+ // makeModusPonensPanel()
+
 })
 
-function makeAxioms(){
-  $("#axioms").html("")
-  axioms.forEach((axiom) => {
+
+
+function  makeWffPanel(){
 
 
 
 
-      $("#axioms").append(makeInteractive(axiom, false))
-
-
-  });
 }
+
+
 
 function makeSentenceLetters(){
   atomic.forEach(function(letter){
-  $("#wffConstructor").append(makeInteractive(letter,true))
+  $("#wffConstructor").append(makeInteractive(letter,true, false))
   })
 }
 
@@ -30,9 +30,8 @@ function makeProof(){
 var lineNumber=1
     if(proof.axioms){
       proof.axioms.forEach((axiom) => {
-        var line = makeLine(lineNumber++,axiom,{rule:"axiom",lines:[]})
-  $("#proof").append(line)
-  line.find(".formula").addClass("tautology")
+
+  $("#proof").append( makeLine(lineNumber++,axiom,{rule:"axiom",lines:[]}))
 })
 
     }
@@ -48,7 +47,7 @@ function makeLine(lineNumber,wff,justification){
 
 return $('<div/>',{class:"line"}).append(
   $('<div/>',{class:"number",html:lineNumber}),
-  makeInteractive(wff,true),
+  makeInteractive(wff,true,true),
   $('<div/>',{class:"justification"}).append(
                                     $('<div/>',{class:"rule",html:justification.rule}),
                                     $('<div/>',{class:"lines",html:justification.lines.join(",")})
@@ -82,9 +81,34 @@ function makeModusPonensPanel(){
 
 }
 
+// function makeWffPanel(connector){
+// var elemDiv;
+//   var panel = $("<div/>",{class:"panel"});
+//   ["left", "right"].forEach(function(elem){
+//    elemDiv = $("<div/>",{class:`${elem} inferenceDrop`})
+// makeDroppableWff(elemDiv, elem)
+//     panel.append(elemDiv)
+//
+// });
+//
+// panel.find('.left').after($("<div/>",{class:"connector",html:renderOperator("-")}))
+// elemDiv=elemDiv.before($("<div/>",{html:"("})).after($("<div/>",{html:")"}))
+//
+//
+//   // panel.children().on("mouseenter",function(event){
+//   //   console.log(event);
+//   // });
+//
+//  $('#wffConstructor').append(panel)
+//
+// }
 
 
-function makeInteractive(wff, isDraggable) {
+
+
+
+
+function makeInteractive(wff, isDraggable=true,isDroppable=true) {
   var interactiveContainer = $('<div/>', {
     class: "formula"
   });
@@ -101,16 +125,11 @@ function makeInteractive(wff, isDraggable) {
       //   $(this).addClass("isFormula")
       //   console.log($(this))
       //
-      if($(this).parent().hasClass('tautology')){
-          $(this).addClass("isTautology")
-      }
-      var grabbedWffText=toShorthand($(this).text())
+
+    //  var grabbedWffText=toShorthand($(this).text())
       var closestFormulaDiv = $(this).closest('.formula');
-      var formula = makeInteractive(findClosestFormula($(this)),true)
-      console.log(toShorthand(formula.text()),grabbedWffText);
-      if (grabbedWffText == splitFromMainConnective(toShorthand(formula.text()))[0]) {
-        $(this).addClass("isAntecedent");
-      }
+
+      var formula = makeInteractive(findClosestFormula($(this)))
            closestFormulaDiv.replaceWith(formula)
      },
     revertDuration: 0,
@@ -121,7 +140,9 @@ function makeInteractive(wff, isDraggable) {
   });
 }
   // requestAnimationFrame(function(){makeDroppable($('.meta_atomic'))});
-  interactiveContainer.find('.meta_atomic').each(function(item){ makeDroppableSubstitution($(this))});
+  if(isDroppable){interactiveContainer.find('.meta_atomic').each(function(item){ makeDroppableSubstitution($(this))});
+}
+
   return interactiveContainer;
 }
 
@@ -136,6 +157,11 @@ function makeDroppableModusPonens(elem,accept){
  makeDroppable(elem,dropModusPonens, modusPonensOver,undefined ,accept)
 }
 
+function makeDroppableWff(elem,accept){
+
+ makeDroppable(elem, dropModusPonens, undefined,undefined ,accept)
+}
+
 function modusPonensOver(event, ui){
 
   var isTautology = $(ui.draggable).hasClass("isTautology")
@@ -147,7 +173,7 @@ function modusPonensOver(event, ui){
 
 function makeDroppable(elem, callback, over=()=>null,accept="*"){
   elem.droppable({
-        accept:".isTautology",
+        accept:accept,
          hoverClass: "active",
          tolerance: 'pointer',
          drop:  callback,
@@ -157,17 +183,21 @@ function makeDroppable(elem, callback, over=()=>null,accept="*"){
 
 
 function dropSubstitution(ui, event) {
-  var subIn = toShorthand($(event.draggable).text())
-  var subOut = toShorthand($(ui.target).text())
-  var wff = findClosestFormula($(ui.target))
-  var wffOut = substitution(subIn,subOut,wff)
+
   var lineNumber=$(ui.target).closest('.line').find('.number').html();
-  proof.lines.push({wff:wffOut,justification:{rule:"subsitution",lines:[lineNumber]}})
+  proof.lines.push({wff:uiSubstitution(ui,event),justification:{rule:"subsitution",lines:[lineNumber]}})
   makeProof();
   //  substitution(subIn, subOut, wff)
 }
 
+function uiSubstitution(ui,event){
 
+  var subIn = toShorthand($(event.draggable).text())
+  var subOut = toShorthand($(ui.target).text())
+  var wff = findClosestFormula($(ui.target))
+  return  substitution(subIn,subOut,wff)
+
+}
 
 function dropModusPonens(ui, event) {
   if($(event.draggable).hasClass("isFormula")){
@@ -176,7 +206,7 @@ function dropModusPonens(ui, event) {
 
 //  substitution(subIn, subOut, wff)
 
-makeProof();
+//makeProof();
 
 }
 
