@@ -12,18 +12,18 @@ constructor(show, premises){
 
 }
 
-  addLine(wff,  justificationLines, justification){
+  addLine(wff, justification){
 
-var uidLines=justificationLines.map((justificationLine)=>this.findLineUid(justificationLine))
+var uidLines=justification.lines.map((justificationLine)=>this.findLineUid(justificationLine))
 
-this.lines.push(new Line(wff, justification, uidLines))
+this.lines.push(new Line(wff, justification.rule, uidLines))
 
   }
 
 
 
 findLineUid(lineNumber){
-
+console.log(lineNumber)
   return this.lines[lineNumber].uid
 }
 

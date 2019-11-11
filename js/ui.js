@@ -1,62 +1,31 @@
+var proof;
+var proofUI;
 $(function() {
 
  // makeAxioms()
- makeWffPanel()
- makeSentenceLetters()
- makeProof()
- // makeModusPonensPanel()
 
+ makeSentenceLetters()
+proof=new Proof("~(((P-Q)-Q)-~P)", axioms)
+ // makeModusPonensPanel()
+proofUI=new ProofUI($("#proof"), proof);
+proofUI.makeProof()
+wffStation=new Proof("(A-B)", ["~A","(A-B)"])
+wffUI=new ProofUI($("#wffConstructor"), wffStation);
+wffUI.makeProof()
 })
 
 
 
-function  makeWffPanel(){
-
-
-
-
-}
 
 
 
 function makeSentenceLetters(){
   atomic.forEach(function(letter){
-  $("#wffConstructor").append(makeInteractive(letter,true, false))
+  $("#sentenceLetters").append(makeInteractive(letter,true, false))
   })
 }
 
-function makeProof(){
-    $("#proof").html("")
-var lineNumber=1
-    if(proof.axioms){
-      proof.axioms.forEach((axiom) => {
 
-  $("#proof").append( makeLine(lineNumber++,axiom,{rule:"axiom",lines:[]}))
-})
-
-    }
-    $("#proof").append(makeLine(lineNumber++,proof.show,{rule:"show",lines:[]}))
-    proof.lines.forEach((line)=>{
-      $("#proof").append(makeLine(lineNumber++,line.wff,line.justification))
-    });
-}
-
-
-function makeLine(lineNumber,wff,justification){
-// console.log(justification)
-
-return $('<div/>',{class:"line"}).append(
-  $('<div/>',{class:"number",html:lineNumber}),
-  makeInteractive(wff,true,true),
-  $('<div/>',{class:"justification"}).append(
-                                    $('<div/>',{class:"rule",html:justification.rule}),
-                                    $('<div/>',{class:"lines",html:justification.lines.join(",")})
-                                            )
-                                    );
-
-
-
-}
 
 function renderOperator(wff) {
   newWff = wff
@@ -80,30 +49,6 @@ function makeModusPonensPanel(){
  $('#inferenceRules').append(panel)
 
 }
-
-// function makeWffPanel(connector){
-// var elemDiv;
-//   var panel = $("<div/>",{class:"panel"});
-//   ["left", "right"].forEach(function(elem){
-//    elemDiv = $("<div/>",{class:`${elem} inferenceDrop`})
-// makeDroppableWff(elemDiv, elem)
-//     panel.append(elemDiv)
-//
-// });
-//
-// panel.find('.left').after($("<div/>",{class:"connector",html:renderOperator("-")}))
-// elemDiv=elemDiv.before($("<div/>",{html:"("})).after($("<div/>",{html:")"}))
-//
-//
-//   // panel.children().on("mouseenter",function(event){
-//   //   console.log(event);
-//   // });
-//
-//  $('#wffConstructor').append(panel)
-//
-// }
-
-
 
 
 
@@ -129,7 +74,7 @@ function makeInteractive(wff, isDraggable=true,isDroppable=true) {
     //  var grabbedWffText=toShorthand($(this).text())
       var closestFormulaDiv = $(this).closest('.formula');
 
-      var formula = makeInteractive(findClosestFormula($(this)))
+      var formula = makeInteractive(findClosestFormula($(this)),isDraggable,isDroppable)
            closestFormulaDiv.replaceWith(formula)
      },
     revertDuration: 0,
@@ -184,9 +129,12 @@ function makeDroppable(elem, callback, over=()=>null,accept="*"){
 
 function dropSubstitution(ui, event) {
 
-  var lineNumber=$(ui.target).closest('.line').find('.number').html();
-  proof.lines.push({wff:uiSubstitution(ui,event),justification:{rule:"subsitution",lines:[lineNumber]}})
-  makeProof();
+  var lineNumber=$(ui.target).closest('.line').find('.number').html()-1;
+  console.log(lineNumber)
+  var uid=proof.findLineUid(lineNumber)
+  console.log(uid);
+  proof.addLine(uiSubstitution(ui,event),{rule:"subsitution",lines:[lineNumber]});
+  proofUI.makeProof();
   //  substitution(subIn, subOut, wff)
 }
 

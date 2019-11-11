@@ -23,7 +23,7 @@ body{
   font-size: 2rem;
 }
 
-.line ,#wffConstructor, .justification{
+.line ,#sentenceLetters, .justification{
     display: flex;
 flex-wrap: no-wrap;
 flex-direction: row;

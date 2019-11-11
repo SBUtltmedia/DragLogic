@@ -6,11 +6,7 @@ const tautologyConst = tautology()
 //                     {name:"Or",shorthandSymbol:"v",char:"&#x2228;"},
 //                     {name:"Biconditional",shorthandSymbol:"=",char:"&#x2194;;"},
 //                     {name:"Not",shorthandSymbol:"~",char:"&#x007E;"} ]
-var proof = {
-  axioms,
-  show: "~(((P-Q)-Q)-~P)",
-  lines: []
-}
+
 const connectives = [{
     name: "Conditional",
     shorthandSymbol: "-",
