@@ -1,10 +1,10 @@
-class ProofUI{
+class dropUI{
 
-  constructor(el, proof){
+  constructor(el, proof, type){
 this.lineNumber=1;
 this.el=el;
 this.proof=proof;
-
+this.type=type
   }
 
 
@@ -95,7 +95,7 @@ wff,
     },
     start: (event, ui)=> {
       // if($(this).parent().hasClass('formula')){
-      //   $(this).addClass("isFormula")
+         $(event.currentTarget).attr("data-type",this.type)
       //   console.log($(this))
       //
 
@@ -104,6 +104,7 @@ wff,
      var  closestFormula = this.findClosestFormula($(event.currentTarget));
       //console.log(closestFormula)
      var formula = this.makeInteractive(closestFormula,isDraggable,isDroppable)
+
           closestFormulaDiv.replaceWith(formula)
      },
     revertDuration: 0,
@@ -127,7 +128,6 @@ wff,
 }
 
  makeDroppableSubstitution(elem){
-console.log(this)
  this.makeDroppable(elem,this.dropSubstitution)
 
 }
@@ -173,10 +173,10 @@ console.log(this)
 
 
  dropSubstitution(ui, event,_this) {
-
+console.log( $(event.draggable).attr("data-type"))
   var lineNumber=$(ui.target).closest('.line').find('.number').html()-1;
 
-  var uid=proof.findLineUid(lineNumber)
+  var uid=_this.proof.findLineUid(lineNumber)
 
   _this.proof.addLine(_this.uiSubstitution(ui,event),{rule:"subsitution",lines:[lineNumber]});
   _this.makeProof();

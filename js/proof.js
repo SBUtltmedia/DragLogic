@@ -23,7 +23,8 @@ this.lines.push(new Line(wff, justification.rule, uidLines))
 
 
 findLineUid(lineNumber){
-console.log(lineNumber)
+
+console.log(this.lines)
   return this.lines[lineNumber].uid
 }
 

@@ -1,5 +1,4 @@
-var proof;
-var proofUI;
+
 $(function() {
 
  // makeAxioms()
@@ -8,10 +7,10 @@ $(function() {
 proof=new Proof("~(((P-Q)-Q)-~P)", axioms)
 
  // makeModusPonensPanel()
-proofUI=new ProofUI($("#proof"), proof);
+proofUI=new dropUI($("#proof"), proof, "proof");
  proofUI.makeSentenceLetters()
 proofUI.makeProof()
 wffStation=new Proof("(A-B)", ["~A","(A-B)"])
-wffUI=new ProofUI($("#wffConstructor"), wffStation);
+wffUI=new dropUI($("#wffConstructor"), wffStation, "wffStation");
 wffUI.makeProof()
 })
