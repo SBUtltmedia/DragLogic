@@ -13,7 +13,7 @@ this.proof=proof;
 makeProof(){
   this.lineNumber=1;
   this.el.html("")
-    this.el.append(this.makeLine("",makeInteractive(this.proof.show,false,false),{rule:"show",lines:[]}))
+    this.el.append(this.makeLine("",this.makeInteractive(this.proof.show,false,false),{rule:"show",lines:[]}))
 // this.proof.lines.forEach((axiom) => {
 // console.log(axiom)
 // this.el.append( this.makeLine(this.lineNumber++,  makeInteractive(axiom.wff,true,true),{rule:"premise",lines:axiom.justificationLines}))
@@ -22,7 +22,7 @@ makeProof(){
 
 
 this.proof.lines.forEach((line)=>{
-  this.el.append(this.makeLine(this.lineNumber++,makeInteractive(line.wff,true,true),  {rule:line.justification,lines:line.justificationLines}))
+  this.el.append(this.makeLine(this.lineNumber++,this.makeInteractive(line.wff,true,true),  {rule:line.justification,lines:line.justificationLines}))
 });
 
 }
@@ -46,7 +46,174 @@ wff,
 
 }
 
+ makeSentenceLetters(){
+  atomic.forEach((letter)=>{
+  $("#sentenceLetters").append(this.makeInteractive(letter,true, false))
+  })
+}
 
+
+
+ renderOperator(wff) {
+  var newWff = wff
+  connectives.forEach((connective) => {
+    newWff = newWff.replace(new RegExp(connective.shorthandSymbol, "g"), connective.char);
+  });
+  return newWff;
+}
+
+ makeModusPonensPanel(){
+  var panel = $("<div/>",{class:"panel"});
+  ["conditional", "antecedent"].forEach(function(elem){
+  var elemDiv = $("<div/>",{class:`${elem} inferenceDrop`})
+  panel.append(elemDiv)
+  makeDroppableModusPonens(elemDiv, elem)
+});
+  // panel.children().on("mouseenter",function(event){
+  //   console.log(event);
+  // });
+
+ $('#inferenceRules').append(panel)
+
+}
+
+
+
+
+ makeInteractive(wff, isDraggable=true,isDroppable=true) {
+   var _this=this;
+  var interactiveContainer = $('<div/>', {
+    class: "formula"
+  });
+  interactiveContainer.append(this.makeTree(wff));
+  if (isDraggable){
+  interactiveContainer.find('span').draggable({
+    cursor: "move",
+    cursorAt: {
+      top: -12,
+      left: -20
+    },
+    start: (event, ui)=> {
+      // if($(this).parent().hasClass('formula')){
+      //   $(this).addClass("isFormula")
+      //   console.log($(this))
+      //
+
+    //  var grabbedWffText=toShorthand($(this).text())
+     var closestFormulaDiv = $(event.currentTarget).closest('.formula');
+     var  closestFormula = this.findClosestFormula($(event.currentTarget));
+      //console.log(closestFormula)
+     var formula = this.makeInteractive(closestFormula,isDraggable,isDroppable)
+          closestFormulaDiv.replaceWith(formula)
+     },
+    revertDuration: 0,
+    revert: true,
+    appendTo: 'body',
+    refreshPositions: true,
+    helper: "clone"
+  });
+}
+  // requestAnimationFrame(function(){makeDroppable($('.meta_atomic'))});
+  if(isDroppable){
+    var meta_atomic =interactiveContainer.find('.meta_atomic')
+
+  meta_atomic.each((item)=>{
+    this.makeDroppableSubstitution($(meta_atomic[item]))
+  }
+);
+}
+
+  return interactiveContainer;
+}
+
+ makeDroppableSubstitution(elem){
+console.log(this)
+ this.makeDroppable(elem,this.dropSubstitution)
+
+}
+
+ makeDroppableModusPonens(elem,accept){
+
+ makeDroppable(elem,dropModusPonens, modusPonensOver,undefined ,accept)
+}
+
+ makeDroppableWff(elem,accept){
+
+ makeDroppable(elem, dropModusPonens, undefined,undefined ,accept)
+}
+
+ modusPonensOver(event, ui){
+
+  var isTautology = $(ui.draggable).hasClass("isTautology")
+  var isAntecedent = $(ui.draggable).hasClass("isAntecedent")
+  var dropIsConditional = $(event.target).hasClass("conditional")
+  var dropIsAntecedent = $(event.target).hasClass("antecedent")
+}
+
+ makeDroppable(elem, callback, over=()=>null,accept="*"){
+
+  elem.droppable({
+        accept:accept,
+         hoverClass: "active",
+         tolerance: 'pointer',
+         drop:  (ui,event)=>callback(ui,event,this),
+         over: over
+       })
+}
+
+
+ uiSubstitution(ui,event){
+
+ var subIn = toShorthand($(event.draggable).text())
+ var subOut = toShorthand($(ui.target).text())
+ var wff = this.findClosestFormula($(ui.target))
+ return  substitution(subIn,subOut,wff)
+
+}
+
+
+ dropSubstitution(ui, event,_this) {
+
+  var lineNumber=$(ui.target).closest('.line').find('.number').html()-1;
+
+  var uid=proof.findLineUid(lineNumber)
+
+  _this.proof.addLine(_this.uiSubstitution(ui,event),{rule:"subsitution",lines:[lineNumber]});
+  _this.makeProof();
+  //  substitution(subIn, subOut, wff)
+
+
+}
+
+
+
+ dropModusPonens(ui, event) {
+  if($(event.draggable).hasClass("isFormula")){
+    console.log($(event.target));
+}
+
+//  substitution(subIn, subOut, wff)
+
+//makeProof();
+
+}
+
+ findClosestFormula(el){
+  return toShorthand(el.closest('.formula').text());
+}
+
+ makeTree(wff) {
+  if (wff.length == 1) return `<span class="meta_atomic">${wff}</span>`;
+  else {
+    var [left, mid, right] = splitFromMainConnective(wff)
+    if (left == "~") {
+      return `<span>${this.renderOperator(left)}${this.makeTree(right)}</span>`
+    } else {
+
+      return `<span>(${this.makeTree(left)}${this.renderOperator(mid)}${this.makeTree(right)})</span>`
+    }
+  }
+}
 
 
 }
