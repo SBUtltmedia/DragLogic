@@ -35,12 +35,22 @@ const connectives = [{
 ]
 
 function tautology() {
-  return stringToBinary(Array(2**largestAtomicCount).fill(1).join(''))
+  return stringToBinary(Array(2 ** largestAtomicCount).fill(1).join(''))
 
 }
 
 function isTautology(wff) {
   return getTruthValue(wff) == tautologyConst
+}
+
+function isConditional(wff) {
+
+  if (splitFromMainConnective(wff)[1] == "-") {
+    return true
+  } else {
+    return false
+  }
+
 }
 
 function getTruthValue(wff) {

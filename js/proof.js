@@ -13,7 +13,7 @@ constructor(show, premises){
 }
 
   addLine(wff, justification){
-
+console.log(wff, justification)
 var uidLines=justification.lines.map((justificationLine)=>this.findLineUid(justificationLine))
 
 this.lines.push(new Line(wff, justification.rule, uidLines))

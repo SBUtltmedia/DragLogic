@@ -96,13 +96,20 @@ wff,
     start: (event, ui)=> {
       // if($(this).parent().hasClass('formula')){
          $(event.currentTarget).attr("data-type",this.type)
-      //   console.log($(this))
+
       //
 
     //  var grabbedWffText=toShorthand($(this).text())
      var closestFormulaDiv = $(event.currentTarget).closest('.formula');
+
+     var lineNumber = closestFormulaDiv.parent().find('.number').text();
+
+      $(event.currentTarget).attr("data-number",lineNumber )
      var  closestFormula = this.findClosestFormula($(event.currentTarget));
-      //console.log(closestFormula)
+     var grabbedFormula= toShorthand($(event.currentTarget).text())
+        $(event.currentTarget).attr("data-iswholeformula",closestFormula==grabbedFormula)
+      console.log(closestFormula,grabbedFormula)
+
      var formula = this.makeInteractive(closestFormula,isDraggable,isDroppable)
 
           closestFormulaDiv.replaceWith(formula)
@@ -111,7 +118,8 @@ wff,
     revert: true,
     appendTo: 'body',
     refreshPositions: true,
-    helper: "clone"
+    helper: "clone",
+    scroll: false
   });
 }
   // requestAnimationFrame(function(){makeDroppable($('.meta_atomic'))});
@@ -150,7 +158,7 @@ wff,
   var dropIsAntecedent = $(event.target).hasClass("antecedent")
 }
 
- makeDroppable(elem, callback, over=()=>null,accept="*"){
+ makeDroppable(elem, callback=()=>null, over=()=>null,accept="*"){
 
   elem.droppable({
         accept:accept,
@@ -173,7 +181,6 @@ wff,
 
 
  dropSubstitution(ui, event,_this) {
-console.log( $(event.draggable).attr("data-type"))
   var lineNumber=$(ui.target).closest('.line').find('.number').html()-1;
 
   var uid=_this.proof.findLineUid(lineNumber)

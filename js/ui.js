@@ -13,4 +13,8 @@ proofUI.makeProof()
 wffStation=new Proof("(A-B)", ["~A","(A-B)"])
 wffUI=new dropUI($("#wffConstructor"), wffStation, "wffStation");
 wffUI.makeProof()
+
+inferenceRules=new InferenceRules(proofUI, proof)
+inferenceRules.makeModusPonens()
+
 })
