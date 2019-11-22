@@ -1,3 +1,21 @@
+
+#stage {
+    background-color: #abceed;
+    position: absolute;
+    margin: 0px;
+    z-index: 0;
+}
+
+.screen {
+    overflow: hidden;
+}
+
+.cover {
+    background-image: url("stripes/stripeBG.png");
+    z-index: 10000;
+    position: absolute;
+}
+
 .station{
     font-size: 3rem;
   }
@@ -34,18 +52,18 @@ body{ user-select: none;
 
 .line ,#sentenceLetters, .justification{
     display: flex;
-flex-wrap: no-wrap;
+
 flex-direction: row;
 justify-content: space-between;
 
 }
 
 #proof{
-border:solid 3px blue;
+border:solid .3rem blue;
 border-radius: 1rem;
 color: white;
 background:#6666FF;
-width:30%;
+width:60%;
 font-family: 'Merriweather Sans', sans-serif;
 
 }
@@ -77,7 +95,7 @@ border:solid 3px #00AA00;
 border-radius: 1rem;
 color: black;
 background:#99FF99;
-width:40%;
+
 font-family: 'Merriweather Sans', sans-serif;
 }
 
@@ -91,7 +109,7 @@ font-family: 'Merriweather Sans', sans-serif;
   padding: 1rem;
   color: black;
   background:#DDFF88;
-  width:40%;
+
 font-family: 'Merriweather Sans', sans-serif;
 }
 
@@ -110,19 +128,20 @@ display:none;
   padding: 1rem;
   color: black;
   background:#DDFF88;
-  width:40%;
+
   font-family: 'Merriweather Sans', sans-serif;
 
   }
-}
+
 
 .bigContainer{
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+background-color: DodgerBlue;
 }
-
 .flexContainer{
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+
+
+
 }

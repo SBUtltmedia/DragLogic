@@ -1,64 +1,72 @@
+class Proof {
 
+  constructor(show, premises) {
 
+    this.show = show
 
-class Proof{
+    this.premises = premises
+    this.lines = this.premises.map((premise) => new Line(premise, "premise", []));
 
-constructor(show, premises){
+  }
 
-  this.show=show
+  addLine(wff, justification) {
+    if (wff) {
+      var uidLines = justification.lines.map((justificationLine) => this.findLineUid(justificationLine))
 
-  this.premises=premises
-  this.lines=this.premises.map((premise)=>new Line(premise, "premise", []));
+      this.lines.push(new Line(wff, justification.rule, uidLines))
+    }
+  }
 
+deleteLine(uid){
+this.lines=this.lines.filter(item => item.uid !== uid)
+
+ var dependants = this.lines.filter((line)=>
+line.justificationLines.includes(uid)
+)
+console.log(uid,dependants)
+dependants.forEach((line)=>{
+line.justificationLines.forEach(jline=>this.deleteLine(jline))
+
+})
 }
 
-  addLine(wff, justification){
-console.log(wff, justification)
-var uidLines=justification.lines.map((justificationLine)=>this.findLineUid(justificationLine))
+  findLineUid(lineNumber) {
 
-this.lines.push(new Line(wff, justification.rule, uidLines))
+
+    return this.lines[lineNumber].uid
+  }
+
+  findLineNumber(uid) {
+
+    return this.lines.indexOf(this.lines.find((line) => line.uid == uid))
+
+  }
+
+  showLines() {
+    return this.lines
 
   }
 
 
-
-findLineUid(lineNumber){
-
-console.log(this.lines)
-  return this.lines[lineNumber].uid
-}
-
-findLineNumber(uid){
-
-return this.lines.indexOf(this.lines.find((line)=>line.uid==uid))
-
-}
-
-showLines(){
-return this.lines
-
-}
-
-
 }
 
 
 
-class Line{
+class Line {
 
-  constructor(wff, justification, justificationLines){
+  constructor(wff, justification, justificationLines) {
 
-    this.uid=window.performance.now()+Math.random()
-    this.wff=wff
-    this.justification=justification
-    this.justificationLines=justificationLines
+    this.uid = window.performance.now() + Math.random()
+    this.wff = wff
+    this.justification = justification
+    this.justificationLines = justificationLines
 
   }
   getJustificationLines() {
-         return this.justificationLines
-     }
-
-
-
-
+    return this.justificationLines
   }
+
+
+
+
+}

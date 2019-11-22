@@ -12,8 +12,8 @@ this.type=type
 
 makeProof(){
   this.lineNumber=1;
-  this.el.html("")
-    this.el.append(this.makeLine("",this.makeInteractive(this.proof.show,false,false),{rule:"show",lines:[]}))
+  this.el.find(".line").remove()
+  if(this.proof.show)  {this.el.append(this.makeLine("",this.makeInteractive(this.proof.show,false,false),{rule:"show",lines:[]}))}
 // this.proof.lines.forEach((axiom) => {
 // console.log(axiom)
 // this.el.append( this.makeLine(this.lineNumber++,  makeInteractive(axiom.wff,true,true),{rule:"premise",lines:axiom.justificationLines}))
@@ -24,6 +24,14 @@ makeProof(){
 this.proof.lines.forEach((line)=>{
   this.el.append(this.makeLine(this.lineNumber++,this.makeInteractive(line.wff,true,true),  {rule:line.justification,lines:line.justificationLines}))
 });
+
+this.el.find(".number").on("click",evt=>{
+
+console.log(this.proof.deleteLine(this.proof.findLineUid($(evt.currentTarget).text()-1)))
+this.makeProof()
+
+
+})
 
 }
 
@@ -108,7 +116,7 @@ wff,
      var  closestFormula = this.findClosestFormula($(event.currentTarget));
      var grabbedFormula= toShorthand($(event.currentTarget).text())
         $(event.currentTarget).attr("data-iswholeformula",closestFormula==grabbedFormula)
-      console.log(closestFormula,grabbedFormula)
+
 
      var formula = this.makeInteractive(closestFormula,isDraggable,isDroppable)
 

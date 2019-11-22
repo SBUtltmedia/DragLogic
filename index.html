@@ -1,63 +1,90 @@
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Modus Ponens Drag-n-Drop</title>
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/basic/jquery.qtip.css">
   <link rel="stylesheet" href="css/style.css">
   <style>
-  .draggable { width: 90px; height: 80px; padding: 0px; float: center; margin: 0 10px 10px 0; font-size: 1.25em;}
-  .ui-widget-header p, .ui-widget-content p {width: 200px; height: 100px; padding: 20px; float: left; margin: 0 10px 10px 0; font-size: 2em; }
-  #snaptarget { height: 140px; }
+    .draggable {
+      width: 90px;
+      height: 80px;
+      padding: 0px;
+      float: center;
+      margin: 0 10px 10px 0;
+      font-size: 1.25em;
+    }
+
+    .ui-widget-header p,
+    .ui-widget-content p {
+      width: 200px;
+      height: 100px;
+      padding: 20px;
+      float: left;
+      margin: 0 10px 10px 0;
+      font-size: 2em;
+    }
+
+    #snaptarget {
+      height: 140px;
+    }
   </style>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/basic/jquery.qtip.js"></script>
   <script src="js/logic.js"></script>
   <script src="js/ui.js"></script>
-    <script src="js/proof.js"></script>
-     <script src="js/dropUI.js"></script>
-     <script src="js/modusPonens.js"></script>
+  <script src="js/proof.js"></script>
+  <script src="js/dropUI.js"></script>
+  <script src="js/modusPonens.js"></script>
+    <script src="/resize/resizeWide.js"></script>
   </script>
   <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
-<div class="bigContainer">
-
-  <div id="proofHeading">
-Proof
+  <div id="stageCover">
+    <div id="coverBottom" class="cover stripes"></div>
+    <div id="coverLeft" class="cover stripes"></div>
+    <div id="coverRight" class="cover stripes"></div>
   </div>
+  <div id="stage" class="screen">
 
-<div id="proof" class="container">
 
-</div>
+    <div class="bigContainer">
 
-<div class="flexContainer">
 
-<div id="sentenceLettersHeading">
-Sentence Letters
-</div>
+      <div id="proof" class="container">
 
-<div id="sentenceLetters" class="container">
+      </div>
 
-</div>
+      <div class="flexContainer">
 
-<div id="wffConstructorHeading">
-WFF Constructor
-</div>
 
-<div id="wffConstructor" class="container">
 
-</div>
 
-<div id="modusPonensHeading">
-Modus Ponens
-</div>
+        <div id="wffConstructorHeading">
+          WFF Constructor
+        </div>
 
-<div id="inferenceRules" class="container">
+        <div id="wffConstructor" class="container">
+          <div id="sentenceLetters" class="container">
 
-</div>
-</div>
-</div>
+           </div>
+        </div>
+
+        <div id="modusPonensHeading">
+          Modus Ponens
+        </div>
+
+        <div id="inferenceRules" class="container">
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
+
 </html>
