@@ -18,16 +18,21 @@ class Proof {
   }
 
 deleteLine(uid){
+var currentLine=this.lines.find(item => item.uid == uid)
+console.log(currentLine.justification)
+if(currentLine.justification!=="premise"){
 this.lines=this.lines.filter(item => item.uid !== uid)
 
  var dependants = this.lines.filter((line)=>
 line.justificationLines.includes(uid)
 )
 console.log(uid,dependants)
+
 dependants.forEach((line)=>{
-line.justificationLines.forEach(jline=>this.deleteLine(jline))
+this.deleteLine(line.uid)
 
 })
+}
 }
 
   findLineUid(lineNumber) {

@@ -29,7 +29,7 @@ class InferenceRules {
     if (isConditional(wffShorthand)) {
       if (ui.draggable.data("iswholeformula")==true) {
         console.log(splitFromMainConnective(wffShorthand))
-        $('.antecedent').html(splitFromMainConnective(wffShorthand)[0])
+        $('.antecedent').html(this.ui.makeTree(splitFromMainConnective(wffShorthand)[0]))
         $('.conditional').html(wff)
       }
     }
@@ -40,8 +40,8 @@ class InferenceRules {
   isAntecedent(event, ui) {
 
     var droppedItem = toShorthand(ui.draggable.text())
-    var expectedValue = $('.antecedent').html()
-
+    var expectedValue = toShorthand($('.antecedent').text())
+console.log(droppedItem,expectedValue)
     if (droppedItem == expectedValue) {
       this.antecedentLine = ui.draggable.data("number") - 1
       var consequent = splitFromMainConnective(toShorthand($('.conditional').html()))[2]

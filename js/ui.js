@@ -4,7 +4,7 @@ $(function() {
  // makeAxioms()
 
 
-proof=new Proof("~(((P-Q)-Q)-~P)", axioms)
+proof=new Proof("(((P-Q)-P)-P)", axioms)
 
  // makeModusPonensPanel()
 proofUI=new dropUI($("#proof"), proof, "proof");
