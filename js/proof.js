@@ -17,23 +17,23 @@ class Proof {
     }
   }
 
-deleteLine(uid){
-var currentLine=this.lines.find(item => item.uid == uid)
-console.log(currentLine.justification)
-if(currentLine.justification!=="premise"){
-this.lines=this.lines.filter(item => item.uid !== uid)
+  deleteLine(uid) {
+    var currentLine = this.lines.find(item => item.uid == uid)
+    console.log(currentLine.justification)
+    if (currentLine.justification !== "premise") {
+      this.lines = this.lines.filter(item => item.uid !== uid)
 
- var dependants = this.lines.filter((line)=>
-line.justificationLines.includes(uid)
-)
-console.log(uid,dependants)
+      var dependants = this.lines.filter((line) =>
+        line.justificationLines.includes(uid)
+      )
+      console.log(uid, dependants)
 
-dependants.forEach((line)=>{
-this.deleteLine(line.uid)
+      dependants.forEach((line) => {
+        this.deleteLine(line.uid)
 
-})
-}
-}
+      })
+    }
+  }
 
   findLineUid(lineNumber) {
 

@@ -48,6 +48,8 @@ html, body {
 body{ user-select: none;
   font-size: 1.5rem;
   overflow:hidden;
+  font-family: 'Merriweather Sans', sans-serif;
+
 }
 
 .line ,#sentenceLetters, .justification{
@@ -100,7 +102,7 @@ font-family: 'Merriweather Sans', sans-serif;
 }
 
 #wffConstructorHeading{
-
+  font-family: 'Merriweather Sans', sans-serif;
 }
 
 #wffConstructor{
@@ -118,7 +120,7 @@ display:none;
 
 }
 #modusPonensHeading{
-
+  font-family: 'Merriweather Sans', sans-serif;
 
 }
 
@@ -141,7 +143,10 @@ display:none;
 background-color: DodgerBlue;
 }
 .flexContainer{
+}
 
-
-
+.qtip{
+  font-size: 1rem;
+  font-family: 'Merriweather Sans', sans-serif;
+}
 }
