@@ -1,7 +1,7 @@
 class Proof {
 
-  constructor(show, premises) {
-
+  constructor(show, premises, save) {
+    this.save=save
     this.show = show
 
     this.premises = premises
@@ -15,8 +15,15 @@ class Proof {
 
       this.lines.push(new Line(wff, justification.rule, uidLines))
     }
+
+    this.checkForSolved(wff)
   }
 
+checkForSolved(wff){
+  if(wff=this.show){
+    this.save.saveProof(this)
+  }
+}
   deleteLine(uid) {
     var currentLine = this.lines.find(item => item.uid == uid)
     console.log(currentLine.justification)

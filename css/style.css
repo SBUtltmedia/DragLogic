@@ -1,6 +1,6 @@
 
 #stage {
-    background-color: #abceed;
+    background-color: #E0FCFC;
     position: absolute;
     margin: 0px;
     z-index: 0;
@@ -35,6 +35,7 @@
 
 .active {
     background-color:yellow;
+    color: black;
 }
 .grayed{
   opacity:.4;
@@ -49,7 +50,14 @@ body{ user-select: none;
   font-size: 1.5rem;
   overflow:hidden;
   font-family: 'Merriweather Sans', sans-serif;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */
+}
 
+.introBox{
+  font-size: 1rem
 }
 
 .line ,#sentenceLetters, .justification{
@@ -61,11 +69,12 @@ justify-content: space-between;
 }
 
 #proof{
-border:solid .3rem blue;
+border:solid .3rem #22A8A8;
 border-radius: 1rem;
 color: white;
-background:#6666FF;
+background:#33CACA;
 width:60%;
+margin:1.7rem;
 font-family: 'Merriweather Sans', sans-serif;
 
 }
@@ -77,8 +86,9 @@ font-family: 'Merriweather Sans', sans-serif;
 }
 .inferenceDrop{
 
-border:.1rem solid #668800;
+border:.15rem solid #22A8A8;
 height:2.5rem;
+padding: 0.5rem
 
 }
 
@@ -95,22 +105,25 @@ padding-left:.5rem;
 #sentenceLetters{
 border:solid 3px #00AA00;
 border-radius: 1rem;
-color: black;
-background:#99FF99;
+color: #444444;
+background:#66DD66;
 
 font-family: 'Merriweather Sans', sans-serif;
 }
 
 #wffConstructorHeading{
-  font-family: 'Merriweather Sans', sans-serif;
+  font-size: 2rem;
+  padding: 1rem;
+font-family: 'Merriweather Sans', sans-serif;
+  font-weight:900;
 }
 
 #wffConstructor{
-  border:solid 3px #CCEE33;
+  border:solid 3px #44DBDB;
   border-radius: 1rem;
   padding: 1rem;
   color: black;
-  background:#DDFF88;
+  background:#99ECEC;
 
 font-family: 'Merriweather Sans', sans-serif;
 }
@@ -120,16 +133,19 @@ display:none;
 
 }
 #modusPonensHeading{
-  font-family: 'Merriweather Sans', sans-serif;
+  font-size: 2rem;
+  padding: 1rem;
+font-family: 'Merriweather Sans', sans-serif;
+  font-weight:900;
 
 }
 
 #inferenceRules{
-  border:solid 3px #CCEE33;
+  border:solid 3px #44DBDB;
   border-radius: 1rem;
   padding: 1rem;
   color: black;
-  background:#DDFF88;
+  background:#99ECEC;
 
   font-family: 'Merriweather Sans', sans-serif;
 
@@ -140,7 +156,7 @@ display:none;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-background-color: DodgerBlue;
+background-color: #E0FCFC;
 }
 .flexContainer{
 }

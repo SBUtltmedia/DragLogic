@@ -3,8 +3,9 @@ $(function() {
 
  // makeAxioms()
 
-
-proof=new Proof("(((P-Q)-P)-P)", axioms)
+var show =  location.hash.split("#")[1]||"(((P-Q)-P)-P)"
+save= new Save()
+proof=new Proof(show, axioms, save)
 
  // makeModusPonensPanel()
 proofUI=new dropUI($("#proof"), proof, "proof");
@@ -18,6 +19,9 @@ inferenceRules=new InferenceRules(proofUI, proof)
 inferenceRules.makeModusPonens()
  proofUI.makeSentenceLetters()
 makeTooltips()
+setTimeout(()=>{
+introJs().setOption("disableInteraction", "true");
+  introJs().start();},1)
 })
 function makeTooltips(){
 var tooltips=[{"selector":"#proof","text":"The proof will be displayed here as it is constructed.", "position":'bottom left'},

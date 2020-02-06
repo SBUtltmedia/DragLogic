@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Modus Ponens Drag-n-Drop</title>
+  <title>DragLogic</title>
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/basic/jquery.qtip.css">
   <link rel="stylesheet" href="css/style.css">
+
   <style>
     .draggable {
       width: 90px;
@@ -34,14 +35,19 @@
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/basic/jquery.qtip.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js" charset="utf-8"></script>
   <script src="js/logic.js"></script>
   <script src="js/ui.js"></script>
+  <script src="js/save.js"></script>
   <script src="js/proof.js"></script>
   <script src="js/dropUI.js"></script>
   <script src="js/modusPonens.js"></script>
     <script src="/resize/resizeWide.js"></script>
   </script>
   <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -57,7 +63,8 @@
     <div class="bigContainer">
 
 
-      <div id="proof" class="container">
+      <div id="proof" class="container"
+      data-intro='The proof will be displayed here as it is constructed.' data-position="left" data-step="1" data-tooltipClass="introBox" data-disable-interaction="false">
 
       </div>
 
@@ -70,9 +77,10 @@
           WFF Constructor
         </div>
 
-        <div id="wffConstructor" class="container">
-          <div id="sentenceLetters" class="container">
-
+        <div id="wffConstructor" class="container"
+        data-intro='This tool can be used to create new well-formed formulas, also known as WFFs.' data-position="left" data-step="2" data-tooltipClass="introBox" data-disable-interaction="false">
+          <div id="sentenceLetters" class="container"
+          data-intro='Sentence letters can be dragged from this box onto the WFF Constructor to create new WFFs, or substituted in for letters in the proof.' data-position="left" data-step="3" data-tooltipClass="introBox" data-disable-interaction="false">
            </div>
         </div>
 
@@ -80,11 +88,15 @@
           Modus Ponens
         </div>
 
-        <div id="inferenceRules" class="container">
+        <div id="inferenceRules" class="container"
+          data-intro='This tool takes a condtional in the first box and its antecendent in the second box. It returns the consequent of the conditional by using Modus Ponens.' data-position="left" data-step="4" data-tooltipClass="introBox" data-disable-interaction="false">
         </div>
       </div>
     </div>
   </div>
-</body>
 
+</body>
+<script type="text/javascript">
+
+</script>
 </html>

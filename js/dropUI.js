@@ -96,6 +96,7 @@ wff,
   interactiveContainer.append(this.makeTree(wff));
   if (isDraggable){
   interactiveContainer.find('span').draggable({
+    delay:100,
     cursor: "move",
     cursorAt: {
       top: -12,

@@ -87,15 +87,18 @@ function makeAtomicTruthString(m = 1, n = largestAtomicCount) {
   return string
 }
 
+// function stringToBinary(str) {
+//   var start = BigInt(0)
+//   str = "*" + str
+//   while (str = str.slice(1)) {
+//     start += BigInt(2) ** BigInt(str.length - 1) * BigInt(parseInt(str.charAt(0)))
+//   }
+//   return start
+// }
 function stringToBinary(str) {
-  var start = BigInt(0)
-  str = "*" + str
-  while (str = str.slice(1)) {
-    start += BigInt(2) ** BigInt(str.length - 1) * BigInt(parseInt(str.charAt(0)))
-  }
-  return start
-}
 
+  return null
+}
 
 // {
 // tmp=power;

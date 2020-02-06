@@ -67,6 +67,7 @@ function makeDraggable(el)
     html: el,
     class: "stationDraggable"
   }).draggable({
+    delay:10000,
     cursor: "move",
     cursorAt: { top: 5, left: 5 },
     helper: function( event ) {
