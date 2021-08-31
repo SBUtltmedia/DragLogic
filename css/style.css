@@ -6,12 +6,10 @@
     z-index: 0;
 }
 
-.screen {
-    overflow: hidden;
-}
+
 
 .cover {
-    background-image: url("stripes/stripeBG.png");
+
     z-index: 10000;
     position: absolute;
 }
@@ -41,14 +39,14 @@
   opacity:.4;
 }
 html, body {
-  overflow:hidden;
+
   height:100%;
   width:100%;
 }
 
 body{ user-select: none;
   font-size: 1.5rem;
-  overflow:hidden;
+
   font-family: 'Merriweather Sans', sans-serif;
     -webkit-user-select: none;  /* Chrome all / Safari all */
     -moz-user-select: none;     /* Firefox all */
@@ -79,11 +77,12 @@ font-family: 'Merriweather Sans', sans-serif;
 
 }
 .container >*{margin: .5rem;}
-0
 
 #proofHeading{
   padding: 1rem
+
 }
+
 .inferenceDrop{
 
 border:.15rem solid #22A8A8;
@@ -165,4 +164,12 @@ background-color: #E0FCFC;
   font-size: 1rem;
   font-family: 'Merriweather Sans', sans-serif;
 }
+
+.tooltip{
+  font-size: 1rem
+}
+#tourButton{
+  width:5rem;
+  height:5rem;
+  padding: 1rem;
 }
