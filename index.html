@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -13,7 +14,7 @@
       width: 90px;
       height: 80px;
       padding: 0px;
-      float: center;
+
       margin: 0 10px 10px 0;
       font-size: 1.25em;
     }
@@ -44,8 +45,8 @@
   <script src="js/proof.js"></script>
   <script src="js/dropUI.js"></script>
   <script src="js/modusPonens.js"></script>
-    <script src="/resize/resizeWide.js"></script>
-  </script>
+    <script src="js/resizeWide.js"></script>
+
   <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
 </head>
@@ -57,14 +58,13 @@
     <div id="coverLeft" class="cover stripes"></div>
     <div id="coverRight" class="cover stripes"></div>
   </div>
-  <div id="stage" class="screen">
+  <div id="stage" style="height:100%;" class="screen">
 
 
     <div class="bigContainer">
 
 
-      <div id="proof" class="container"
-      data-intro='The proof will be displayed here as it is constructed.' data-position="left" data-step="1" data-tooltipClass="introBox" data-disable-interaction="false">
+      <div id="proof" class="container">
 
       </div>
 
@@ -77,10 +77,8 @@
           WFF Constructor
         </div>
 
-        <div id="wffConstructor" class="container"
-        data-intro='This tool can be used to create new well-formed formulas, also known as WFFs.' data-position="left" data-step="2" data-tooltipClass="introBox" data-disable-interaction="false">
-          <div id="sentenceLetters" class="container"
-          data-intro='Sentence letters can be dragged from this box onto the WFF Constructor to create new WFFs, or substituted in for letters in the proof.' data-position="left" data-step="3" data-tooltipClass="introBox" data-disable-interaction="false">
+        <div id="wffConstructor" class="container">
+          <div id="sentenceLetters" class="container">
            </div>
         </div>
 
@@ -88,15 +86,75 @@
           Modus Ponens
         </div>
 
-        <div id="inferenceRules" class="container"
-          data-intro='This tool takes a condtional in the first box and its antecendent in the second box. It returns the consequent of the conditional by using Modus Ponens.' data-position="left" data-step="4" data-tooltipClass="introBox" data-disable-interaction="false">
+        <div id="inferenceRules" class="container">
         </div>
       </div>
+
+      <img src="img/tourButton.svg" alt="Tour" id="tourButton">
     </div>
   </div>
 
-</body>
-<script type="text/javascript">
+        <script type="text/javascript">
+        function startIntro(){
+          var intro = introJs();
+            intro.setOptions({
+              steps: [
+                {
+                  intro: 'Welcome to DragLogic! DragLogic is a tool for writing proofs of theorems provable in the Łukasiewicz axioms of logic. The goal is to prove the statement in the Show line by using substitution and Modus Ponens. All operations can be performed by using drag-and-drop with a mouse. This program is not optimised for tablets yet.'
+                },
+                {
+                  element: document.querySelector('#proof'),
+                  intro: 'The proof will be displayed here as it is constructed. Line numbers of lines derived by substitution and Modus Ponens can be clicked, and they will be deleted' ,
+                  position: 'left'
+                },
+                {
+                  element: document.querySelector('#wffConstructor'),
+                  intro: 'This tool can be used to create new well-formed formulas, also known as WFFs',
+                  position: 'bottom'
+                },
+                {
+                  element: '#sentenceLetters',
+                  intro: 'Sentence letters can be dragged from this box onto the WFF Constructor to create new WFFs, or substituted in for letters in the proof.',
+                  position:'bottom'
+                },
+                {
+                  element:'#inferenceRules',
+                  intro: 'This tool takes a condtional in the first box and its antecendent in the second box. It returns the consequent of the conditional by using Modus Ponens.',
+                  position:'bottom'
+                },
+                {
+                  element: '#tourButton',
+                  intro: 'This button can be clicked to view this tour again at any time. You can click anywhere outside thie popup to begin.',
+                  position:'bottom'
+                }
+              ],
+              tooltipClass:"tooltip",
+              disableInteraction: "true"
+            }
+          );
+          intro.oncomplete(function() {
+            localStorage.setItem('doneTour', 'yeah!');
+          })
 
-</script>
+          // add a flag when we exit
+          intro.onexit(function() {
+             localStorage.setItem('doneTour', 'yeah!');
+          });
+
+          // and check for it when deciding whether to start.
+          window.addEventListener('load', ()=> {
+            var doneTour = localStorage.getItem('doneTour') === 'yeah!';
+            if (doneTour) return;
+            intro.start();
+          })
+          $("#tourButton").click(function(){
+            intro.start();
+          });
+
+        };
+
+      startIntro();
+      </script>
+</body>
+
 </html>

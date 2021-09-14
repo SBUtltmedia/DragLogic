@@ -1,4 +1,4 @@
-var axioms = ["((~A-~B)-(B-A))", "(A-(B-A))", "((A-(B-C))-((A-B)-(A-C)))"]
+var axioms = ["((~A-~B)-(B-A))", "(A-(B-A))", "((A-(B-C))-((A-B)-(A-C)))", "(P-Q)", "P"]
 const largestAtomicCount = 15
 const tautologyConst = tautology()
 // const connectives = [ {name:"Conditional",shorthandSymbol:"-",char:"&#x2192;"},

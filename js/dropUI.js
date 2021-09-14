@@ -72,10 +72,10 @@ wff,
 
  makeModusPonensPanel(){
   var panel = $("<div/>",{class:"panel"});
-  ["conditional", "antecedent"].forEach(function(elem){
+  ["premise1", "premise2"].forEach((elem)=>{
   var elemDiv = $("<div/>",{class:`${elem} inferenceDrop`})
   panel.append(elemDiv)
-  makeDroppableModusPonens(elemDiv, elem)
+  this.makeDroppableModusPonens(elemDiv, elem)
 });
   // panel.children().on("mouseenter",function(event){
   //   console.log(event);
@@ -84,7 +84,11 @@ wff,
  $('#inferenceRules').append(panel)
 
 }
+makeDroppableModusPonens(elem,accept){
 
+  makeDroppable(elem,dropModusPonens, modusPonensOver,undefined ,accept)
+ }
+ 
 
 
 
@@ -149,14 +153,10 @@ wff,
 
 }
 
- makeDroppableModusPonens(elem,accept){
-
- makeDroppable(elem,dropModusPonens, modusPonensOver,undefined ,accept)
-}
 
  makeDroppableWff(elem,accept){
 
- makeDroppable(elem, dropModusPonens, undefined,undefined ,accept)
+ this.makeDroppable(elem, dropModusPonens, undefined,undefined ,accept)
 }
 
  modusPonensOver(event, ui){

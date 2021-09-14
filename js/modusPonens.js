@@ -38,7 +38,7 @@ class InferenceRules {
 
   }
   isAntecedent(event, ui) {
-
+    if (ui.draggable.data("iswholeformula")==true) {
     var droppedItem = toShorthand(ui.draggable.text())
     var expectedValue = toShorthand($('.antecedent').text())
 console.log(droppedItem,expectedValue)
@@ -51,6 +51,7 @@ console.log(droppedItem,expectedValue)
       });
       this.ui.makeProof();
     }
+  }
     //   $('.antecedent').html
     //
     // }
