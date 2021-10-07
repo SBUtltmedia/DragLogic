@@ -1,4 +1,6 @@
-var axioms = ["((~A-~B)-(B-A))", "(A-(B-A))", "((A-(B-C))-((A-B)-(A-C)))", "(P-Q)", "P"]
+export {axioms, connectives, atomic, splitFromMainConnective, toShorthand, isConditional, substitution}
+let axioms = ["((~A-~B)-(B-A))", "(A-(B-A))", "((A-(B-C))-((A-B)-(A-C)))", "(P-Q)", "P"]
+
 const largestAtomicCount = 15
 const tautologyConst = tautology()
 // const connectives = [ {name:"Conditional",shorthandSymbol:"-",char:"&#x2192;"},
@@ -55,14 +57,14 @@ function isConditional(wff) {
 
 function getTruthValue(wff) {
   if (wff.length == 1) {
-    var atomicIndex = wff.charCodeAt(0) - 64;
+    let atomicIndex = wff.charCodeAt(0) - 64;
     if (atomicIndex > 15) {
 
       atomicIndex -= 15;
     }
     return stringToBinary(makeAtomicTruthString(atomicIndex))
   } else {
-    var [left, mid, right] = splitFromMainConnective(wff)
+    let [left, mid, right] = splitFromMainConnective(wff)
     if (left == "~") {
       return tautologyConst - getTruthValue(right)
     } else {
@@ -76,9 +78,9 @@ function getTruthValue(wff) {
 
 
 function makeAtomicTruthString(m = 1, n = largestAtomicCount) {
-  var string = ""
-  var reciprocal = 1 / 2 ** (m - 1)
-  var numberOfRows = 2 ** (n + 1) / 2 ** m;
+  let string = ""
+  let reciprocal = 1 / 2 ** (m - 1)
+  let numberOfRows = 2 ** (n + 1) / 2 ** m;
 
   while ((numberOfRows -= reciprocal)) {
     string += Math.floor(numberOfRows) % 2
@@ -88,7 +90,7 @@ function makeAtomicTruthString(m = 1, n = largestAtomicCount) {
 }
 
 // function stringToBinary(str) {
-//   var start = BigInt(0)
+//   let start = BigInt(0)
 //   str = "*" + str
 //   while (str = str.slice(1)) {
 //     start += BigInt(2) ** BigInt(str.length - 1) * BigInt(parseInt(str.charAt(0)))
@@ -143,10 +145,10 @@ function isType(char, type) {
 }
 
 function toShorthand(wff) {
-  var chars = [...wff];
-  for (i in chars) {
+  let chars = [...wff];
+  for (let i in chars) {
 
-    connective = connectives.find(connective => connective.char == chars[i])
+    let connective = connectives.find(connective => connective.char == chars[i])
     if (connective) {
       chars[i] = connective.shorthandSymbol
 
@@ -169,10 +171,10 @@ function escapeRegExp(text) {
 
 function findMainConnectorPos(wff) {
 
-  var counter = 0;
-  var mainConnectivePos = 0;
-  var chars = [...wff];
-  for (i in chars) {
+  let counter = 0;
+  let mainConnectivePos = 0;
+  let chars = [...wff];
+  for (let i in chars) {
     if (isType(chars[i], "shorthandUnaryConnectives") && counter == 0) {
       return i;
     } else if (isType(chars[i], "shorthandBinaryConnectives") && counter == 1) {
@@ -196,7 +198,7 @@ function deParenthesize(wff) {
 
 
 function splitFromMainConnective(wff) {
-  var not = connectives.find(item => item.name == "Not").shorthandSymbol
+  let not = connectives.find(item => item.name == "Not").shorthandSymbol
   if (findMainConnective(wff) == not) {
     return [not, "", wff.slice(1)]
   } else {
@@ -205,7 +207,7 @@ function splitFromMainConnective(wff) {
 }
 
 function modusPonens(p1, p2) {
-  var [antecedent, connective, consequent] = splitFromMainConnective(p1)
+  let [antecedent, connective, consequent] = splitFromMainConnective(p1)
   if (p2 == antecedent && findMainConnective(p1) == connectives.find(item => item.name == "Conditional").shorthandSymbol)
     return consequent;
 }

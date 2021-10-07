@@ -1,4 +1,4 @@
-class Save {
+export default class Save {
 
   constructor() {
 

@@ -1,10 +1,13 @@
-class dropUI{
+import InferenceRulesUI from "./inferenceRulesUI.js";
+import * as Logic from "./logic.js"
+export default class ProofUI{
 
   constructor(el, proof, type){
 this.lineNumber=1;
 this.el=el;
 this.proof=proof;
-this.type=type
+this.type=type;
+this.InferenceRulesUI= new InferenceRulesUI(this, proof);
   }
 
 
@@ -39,7 +42,7 @@ this.makeProof()
 
 
 makeLine(lineNumber,wff,justification){
-var showLines=justification.lines.map((line)=>this.proof.findLineNumber(line)+1)
+let showLines=justification.lines.map((line)=>this.proof.findLineNumber(line)+1)
 
 return $('<div/>',{class:"line"}).append(
   $('<div/>',{class:"number",html:lineNumber}),
@@ -55,7 +58,7 @@ wff,
 }
 
  makeSentenceLetters(){
-  atomic.forEach((letter)=>{
+  Logic.atomic.forEach((letter)=>{
   $("#sentenceLetters").append(this.makeInteractive(letter,true, false))
   })
 }
@@ -63,17 +66,17 @@ wff,
 
 
  renderOperator(wff) {
-  var newWff = wff
-  connectives.forEach((connective) => {
+  let newWff = wff
+  Logic.connectives.forEach((connective) => {
     newWff = newWff.replace(new RegExp(connective.shorthandSymbol, "g"), connective.char);
   });
   return newWff;
 }
 
  makeModusPonensPanel(){
-  var panel = $("<div/>",{class:"panel"});
-  ["premise1", "premise2"].forEach((elem)=>{
-  var elemDiv = $("<div/>",{class:`${elem} inferenceDrop`})
+  let panel = $("<div/>",{class:"panel"});
+  ["conditional", "antecedent"].forEach((elem)=>{
+  let elemDiv = $("<div/>",{class:`${elem} inferenceDrop`})
   panel.append(elemDiv)
   this.makeDroppableModusPonens(elemDiv, elem)
 });
@@ -93,8 +96,8 @@ makeDroppableModusPonens(elem,accept){
 
 
  makeInteractive(wff, isDraggable=true,isDroppable=true) {
-   var _this=this;
-  var interactiveContainer = $('<div/>', {
+   let _this=this;
+  let interactiveContainer = $('<div/>', {
     class: "formula"
   });
   interactiveContainer.append(this.makeTree(wff));
@@ -112,18 +115,18 @@ makeDroppableModusPonens(elem,accept){
 
       //
 
-    //  var grabbedWffText=toShorthand($(this).text())
-     var closestFormulaDiv = $(event.currentTarget).closest('.formula');
+    //  let grabbedWffText=toShorthand($(this).text())
+     let closestFormulaDiv = $(event.currentTarget).closest('.formula');
 
-     var lineNumber = closestFormulaDiv.parent().find('.number').text();
+     let lineNumber = closestFormulaDiv.parent().find('.number').text();
 
       $(event.currentTarget).attr("data-number",lineNumber )
-     var  closestFormula = this.findClosestFormula($(event.currentTarget));
-     var grabbedFormula= toShorthand($(event.currentTarget).text())
+     let  closestFormula = this.findClosestFormula($(event.currentTarget));
+     let grabbedFormula= Logic.toShorthand($(event.currentTarget).text())
         $(event.currentTarget).attr("data-iswholeformula",closestFormula==grabbedFormula)
 
 
-     var formula = this.makeInteractive(closestFormula,isDraggable,isDroppable)
+     let formula = this.makeInteractive(closestFormula,isDraggable,isDroppable)
 
           closestFormulaDiv.replaceWith(formula)
      },
@@ -137,7 +140,7 @@ makeDroppableModusPonens(elem,accept){
 }
   // requestAnimationFrame(function(){makeDroppable($('.meta_atomic'))});
   if(isDroppable){
-    var meta_atomic =interactiveContainer.find('.meta_atomic')
+    let meta_atomic =interactiveContainer.find('.meta_atomic')
 
   meta_atomic.each((item)=>{
     this.makeDroppableSubstitution($(meta_atomic[item]))
@@ -161,10 +164,10 @@ makeDroppableModusPonens(elem,accept){
 
  modusPonensOver(event, ui){
 
-  var isTautology = $(ui.draggable).hasClass("isTautology")
-  var isAntecedent = $(ui.draggable).hasClass("isAntecedent")
-  var dropIsConditional = $(event.target).hasClass("conditional")
-  var dropIsAntecedent = $(event.target).hasClass("antecedent")
+  let isTautology = $(ui.draggable).hasClass("isTautology")
+  let isAntecedent = $(ui.draggable).hasClass("isAntecedent")
+  let dropIsConditional = $(event.target).hasClass("conditional")
+  let dropIsAntecedent = $(event.target).hasClass("antecedent")
 }
 
  makeDroppable(elem, callback=()=>null, over=()=>null,accept="*"){
@@ -181,18 +184,18 @@ makeDroppableModusPonens(elem,accept){
 
  uiSubstitution(ui,event){
 
- var subIn = toShorthand($(event.draggable).text())
- var subOut = toShorthand($(ui.target).text())
- var wff = this.findClosestFormula($(ui.target))
- return  substitution(subIn,subOut,wff)
+ let subIn = Logic.toShorthand($(event.draggable).text())
+ let subOut = Logic.toShorthand($(ui.target).text())
+ let wff = this.findClosestFormula($(ui.target))
+ return  Logic.substitution(subIn,subOut,wff)
 
 }
 
 
  dropSubstitution(ui, event,_this) {
-  var lineNumber=$(ui.target).closest('.line').find('.number').html()-1;
+  let lineNumber=$(ui.target).closest('.line').find('.number').html()-1;
 
-  var uid=_this.proof.findLineUid(lineNumber)
+  let uid=_this.proof.findLineUid(lineNumber)
 
   _this.proof.addLine(_this.uiSubstitution(ui,event),{rule:"subsitution",lines:[lineNumber]});
   _this.makeProof();
@@ -200,7 +203,19 @@ makeDroppableModusPonens(elem,accept){
 
 
 }
+makeModusPonens() {
 
+  let conditional = $('<div/>', {
+    class: "conditional inferenceDrop"
+  });
+  this.makeDroppable(conditional, (event, ui) => this.InferenceRulesUI.isConditionalWholeFormula(event, ui))
+  let antecedent = $('<div/>', {
+    class: "antecedent inferenceDrop grayed"
+  });
+  console.log(this.InferenceRulesUI)
+  this.makeDroppable(antecedent, (event, ui) => this.InferenceRulesUI.isAntecedent(event, ui))
+  $('#inferenceRules').append([conditional, antecedent])
+}
 
 
  dropModusPonens(ui, event) {
@@ -215,13 +230,13 @@ makeDroppableModusPonens(elem,accept){
 }
 
  findClosestFormula(el){
-  return toShorthand(el.closest('.formula').text());
+  return Logic.toShorthand(el.closest('.formula').text());
 }
 
  makeTree(wff) {
   if (wff.length == 1) return `<span class="meta_atomic">${wff}</span>`;
   else {
-    var [left, mid, right] = splitFromMainConnective(wff)
+    let [left, mid, right] = Logic.splitFromMainConnective(wff)
     if (left == "~") {
       return `<span>${this.renderOperator(left)}${this.makeTree(right)}</span>`
     } else {

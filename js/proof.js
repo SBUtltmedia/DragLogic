@@ -1,4 +1,4 @@
-class Proof {
+export default class Proof {
 
   constructor(show, premises=[], axioms=[],save) {
     this.save=save
@@ -14,7 +14,7 @@ class Proof {
 
   addLine(wff, justification) {
     if (wff) {
-      var uidLines = justification.lines.map((justificationLine) => this.findLineUid(justificationLine))
+      let uidLines = justification.lines.map((justificationLine) => this.findLineUid(justificationLine))
 
       this.lines.push(new Line(wff, justification.rule, uidLines))
     }
@@ -29,12 +29,12 @@ checkForSolved(wff){
   }
 }
   deleteLine(uid) {
-    var currentLine = this.lines.find(item => item.uid == uid)
+    let currentLine = this.lines.find(item => item.uid == uid)
     console.log(currentLine.justification)
     if (currentLine.justification !== "axiom") {
       this.lines = this.lines.filter(item => item.uid !== uid)
 
-      var dependants = this.lines.filter((line) =>
+      let dependants = this.lines.filter((line) =>
         line.justificationLines.includes(uid)
       )
       console.log(uid, dependants)
