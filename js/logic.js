@@ -1,5 +1,5 @@
 export {axioms, connectives, atomic, splitFromMainConnective, toShorthand, isConditional, substitution}
-let axioms = ["((~A-~B)-(B-A))", "(A-(B-A))", "((A-(B-C))-((A-B)-(A-C)))", "(P-Q)", "P"]
+let axioms = ["((~A-~B)-(B-A))", "(A-(B-A))", "((A-(B-C))-((A-B)-(A-C)))"]
 
 const largestAtomicCount = 15
 const tautologyConst = tautology()
